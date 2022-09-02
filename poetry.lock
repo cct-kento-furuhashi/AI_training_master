@@ -52,7 +52,11 @@ benchmark = ["memory-profiler (>=0.57.0)", "pandas (>=1.0.5)", "matplotlib (>=3.
 
 [[package]]
 name = "scipy"
+<<<<<<< HEAD
 version = "1.9.1"
+=======
+version = "1.9.0"
+>>>>>>> 5920853bef373d7580e6266f6b31c251ca3923b4
 description = "SciPy: Scientific Library for Python"
 category = "main"
 optional = false
@@ -71,6 +75,7 @@ python-versions = ">=3.6"
 
 [metadata]
 lock-version = "1.1"
+<<<<<<< HEAD
 python-versions = "3.9.12"
 content-hash = "6b71c8a7530399fa3d224014d4c04adab4f613f63e801bfe252937a3c7ed2780"
 
@@ -165,3 +170,15 @@ threadpoolctl = [
     {file = "threadpoolctl-3.1.0-py3-none-any.whl", hash = "sha256:8b99adda265feb6773280df41eece7b2e6561b772d21ffd52e372f999024907b"},
     {file = "threadpoolctl-3.1.0.tar.gz", hash = "sha256:a335baacfaa4400ae1f0d8e3a58d6674d2f8828e3716bb2802c44955ad391380"},
 ]
+=======
+python-versions = "^3.9,<3.10"
+content-hash = "09c357d3f4dd78f78eef40825d653a25a8e7c6d76881e2afab7ff50cedc05b82"
+
+[metadata.files]
+joblib = []
+lightgbm = []
+numpy = []
+scikit-learn = []
+scipy = []
+threadpoolctl = []
+>>>>>>> 5920853bef373d7580e6266f6b31c251ca3923b4
