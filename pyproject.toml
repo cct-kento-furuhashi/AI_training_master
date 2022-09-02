@@ -7,6 +7,8 @@ authors = ["kento.furuhashi <kento.furuhashi@cct-inc.co.jp>"]
 [tool.poetry.dependencies]
 python = "^3.9,<3.10"
 lightgbm = "^3.3.2"
+pandas = "^1.4.4"
+sklearn = "^0.0"
 
 [tool.poetry.dev-dependencies]
 
