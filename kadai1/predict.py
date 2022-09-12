@@ -17,3 +17,8 @@ def predict(test_data:pd.DataFrame , model_path:str):
     # eval
     rmse_test = mean_squared_error(y_test, y_pred) ** 0.5
     print(f'The RMSE of prediction is: {rmse_test}')
+
+    ## featureimportance
+    importance = pd.DataFrame(gbm.feature_importance(),index=test_data.drop("medv",axis=1).columns,columns=['importance'])
+    
+    return rmse_test,importance
