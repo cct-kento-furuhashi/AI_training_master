@@ -1,8 +1,9 @@
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
-from datasets.utils import read_df
 from sklearn.metrics import mean_squared_error, r2_score
+
+from datasets.utils import read_df
 
 
 def predict(test_df: pd.DataFrame, model: lgb.Booster) -> None:

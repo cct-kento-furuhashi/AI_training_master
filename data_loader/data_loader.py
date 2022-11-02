@@ -16,6 +16,7 @@ def _read_csv(csv_path: str) -> pd.DataFrame:
     df = pd.read_csv(csv_path)
     return df
 
+
 def read_data(file_path: str) -> pd.DataFrame:
     """read_data ファイルを読み込んでデータを返す
 

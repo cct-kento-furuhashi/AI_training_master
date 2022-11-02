@@ -3,6 +3,7 @@ import pickle
 
 import lightgbm as lgb
 import pandas as pd
+
 from datasets.utils import read_df
 from settings.params import LGB_MODEL_PATH, TRAIN_PARAMS
 
@@ -30,8 +31,9 @@ def train(train_df: pd.DataFrame, valid_df: pd.DataFrame) -> lgb.Booster:
     valid_dataset = lgb.Dataset(valid_x, valid_y)
 
     # 訓練
-    model = lgb.train(TRAIN_PARAMS, train_dataset, valid_sets=valid_dataset, num_boost_round=1000, early_stopping_rounds=100)
+    model = lgb.train(
+        TRAIN_PARAMS, train_dataset, valid_sets=valid_dataset, num_boost_round=1000, early_stopping_rounds=100
+    )
     with open(LGB_MODEL_PATH, "wb") as f:
         pickle.dump(model, f)
     return model
-
