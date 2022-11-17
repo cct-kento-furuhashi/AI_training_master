@@ -15,6 +15,7 @@ pyproject-flake8 = "^5.0.4.post1"
 black = "^22.10.0"
 isort = "^5.10.1"
 typing-extensions = "^4.4.0"
+optuna = "^3.0.3"
 
 [tool.poetry.dev-dependencies]
 

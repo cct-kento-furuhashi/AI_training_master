@@ -4,6 +4,12 @@ from predictor.predict_with_lgb import predict
 from settings.params import INPUT_PATH
 from training.train_with_lgb import train
 
+"""
+Bostonの住宅価格をLightGBMを使用して予測する
+訓練データ数: 450
+テストデータ数: 56
+"""
+
 if __name__ == "__main__":
     # ファイル読み込み
     load_data = read_data(INPUT_PATH)
@@ -15,4 +21,5 @@ if __name__ == "__main__":
     model = train(train_data, valid_data)
 
     # テスト
-    predict(test_data, model)
+    rmse, mae, r2 = predict(test_data, model)
+    print(f"RMSE: {rmse:.2f} MAE: {mae:.2f} R2: {r2:.2f}")
