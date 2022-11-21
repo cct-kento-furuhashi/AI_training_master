@@ -1,5 +1,6 @@
 import pandas as pd
 import itertools
+from sklearn.model_selection import train_test_split
 
 def shape_raw_data(raw_data:pd.DataFrame)->pd.DataFrame:
     """_summary_
@@ -12,6 +13,20 @@ def shape_raw_data(raw_data:pd.DataFrame)->pd.DataFrame:
     """
     shaped_data = raw_data.drop(0, axis=1)
     return shaped_data
+
+def shape_datas(df:pd.DataFrame)->pd.DataFrame:
+    """_summary_
+        現時点(220912)では1行目を削る関数。
+    Args:
+        raw_data (pd.DataFrame): データフレーム型のデータ
+
+    Returns:
+        pd.DataFrame: 整形後のデータ
+    """
+    train_valid_df, test_df = train_test_split(df, test_size=56, shuffle=False)
+    train_df, valid_df = train_test_split(train_valid_df, test_size=0.2, shuffle=False)
+    return train_df, valid_df, test_df
+
 
 def select_data(raw_data:pd.DataFrame,select_name:list,target_name:str)->pd.DataFrame:
     """_summary_

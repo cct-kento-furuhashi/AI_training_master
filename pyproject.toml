@@ -8,6 +8,7 @@ authors = ["Takeru Uchiyama <takeru.uchiyama@cct-inc.co.jp>"]
 python = "3.9.12"
 lightgbm = "3.3.2"
 pandas = "^1.4.4"
+optuna = "^3.0.3"
 
 [tool.poetry.dev-dependencies]
 
