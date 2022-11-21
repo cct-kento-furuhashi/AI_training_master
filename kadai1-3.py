@@ -18,9 +18,20 @@ if __name__ == "__main__":
     # # 全項目での確認
     ## ファイル読み込み
     csv_data = read_csv(os.path.join("input_data","Boston.csv"))    
-
+    ## データ整形
+    train_data,test_data = train_test_split(csv_data,test_size=56,random_state=0,shuffle=False)
+    ## 訓練
+    model_path = trainLGB(train_data,test_data)
+    ## テスト
+    predict_result,importance_result = predict(test_data,model_path)
+    ## 基準となる重要度
+    importance_base = importance_result
+    imp_base_dict = importance_base.to_dict(orient='dict')['importance']
+    print(imp_base_dict)
     # 結果を入れるDF
     result_list_all = []
+
+    # importanceが高い5項目を使用し推論
     ## 使用するカラム
     best_columns = ["crim","rm","dis","age","lstat"]
     ## データの選択
@@ -36,13 +47,13 @@ if __name__ == "__main__":
     # result_dict = {'best_'+'_'.join(["crim","rm","dis","age","lstat"]):predict_result}
     # importance_sum = {'best_'+'_'.join(["crim","rm","dis","age","lstat"]):(importance_base.T.loc[:,best_columns].T['importance'].sum())}
     ### リスト
-    result_list = ['best','crim:' +str(importance_result['crim']),
-                          'rm:'   +str(importance_result['rm']),
-                          'dis:'  +str(importance_result['dis']),
-                          'age:'  +str(importance_result['age']),
-                          'lstat:'+str(importance_result['lstat']),
+    result_list = ['best','crim:' +str(imp_base_dict['crim']),
+                          'rm:'   +str(imp_base_dict['rm']),
+                          'dis:'  +str(imp_base_dict['dis']),
+                          'age:'  +str(imp_base_dict['age']),
+                          'lstat:'+str(imp_base_dict['lstat']),
                           predict_result,
-                          importance_result.T.loc[:,best_columns].T['importance'].sum()]
+                          importance_base.T.loc[:,best_columns].T['importance'].sum()]
     result_list_all.append(result_list)
 
     # 任意の5項目を使用し推論

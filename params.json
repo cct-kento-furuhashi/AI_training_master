@@ -1,0 +1,1 @@
+{"objective": "regression", "metrics": "rmse", "verbosity": -1, "boosting": "gbdt", "seed": 831, "n_jobs": -1, "bagging_fraction": 0.8006668751528802, "bagging_freq": 0, "feature_fraction": 0.153920483622867, "lambda_l1": 0.04217871364840671, "lambda_l2": 1.176059358022583e-08, "learning_rate": 0.007270052996759038, "max_depth": 52, "min_child_samples": 26, "num_leaves": 6}

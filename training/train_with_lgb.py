@@ -2,16 +2,25 @@ from typing import Any
 import pandas as pd
 import lightgbm as lgb
 import pickle
-from settings.params import MODEL_PATH
+from settings.params import MODEL_PATH,TRAIN_PARAMS,N_BOOST_ROUND,N_EARLY_STOPPING_ROUND
+from typing import Dict,Union
 
-def trainLGB(train_data:pd.DataFrame,test_data:pd.DataFrame) -> lgb.Booster:
+# warnings.simplefilter("ignore") これも不明
+
+def train(
+    train_data:pd.DataFrame,
+    test_data:pd.DataFrame,
+    params: Dict[str, Union[int, float, str]] = TRAIN_PARAMS,
+    model_idx: int = 0,##これの意味がわかんない。
+    ) -> lgb.Booster:
     """ightGBMで訓練を実施する。
 
 
     Args:
         train_data (pd.DataFrame):訓練データ
         test_data (pd.DataFrame):テストデータ
-   
+        params:LGBハイパーパラメータ
+        model_idx (int): モデルID
     Returns:
         lgb.Booster: 訓練済みモデル
     """
@@ -31,28 +40,16 @@ def trainLGB(train_data:pd.DataFrame,test_data:pd.DataFrame) -> lgb.Booster:
     lgb_train = lgb.Dataset(X_train,y_train)
     lgb_eval = lgb.Dataset(X_test,y_test)
 
-    print("--- lgb_dataset created ---")
-
-
-    # specify your configurations as a dict
-    params = {
-        'objective': 'regression',
-        'metrics': 'rmse',
-        'lerning_rate': 0.1,
-        'num_iterations': 100,
-        'num_leaves':31,
-        'max_depth':-1,
-        'verbosity':-1
-    }
 
     print('Starting training...')
 
     # train
     gbm = lgb.train(params,
                     lgb_train,
-                    num_boost_round=1000,
+                    num_boost_round=N_BOOST_ROUND,
                     valid_sets=lgb_eval,
-                    early_stopping_rounds=100
+                    early_stopping_rounds=N_EARLY_STOPPING_ROUND,
+                    verbose_eval = False,
                     )
 
     print('Saving model...')

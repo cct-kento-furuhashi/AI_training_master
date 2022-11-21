@@ -1,34 +1,25 @@
-import os
-import random
-import pprint
-from turtle import pd
-import pandas as pd 
-from unittest import result
-from kadai.dataShaper import shape_raw_data
-from kadai.dataShaper import select_data
-from kadai.dataShaper import combination_brute_forse
-from kadai.dataloader import read_csv
-from kadai.predict import predict
-from kadai.train import trainLGB
-from sklearn.model_selection import train_test_split
-from kadai.settings.params import INPUT_PATH
-
+from settings.params import INPUT_PATH
+from data_loader.data_loader import read_csv
+from datasets.data_shaper import shape_datas
+from training.train_with_lgb import train
+from predictor.predict import predict
+from optimizer.optimize import optimize_param
 
 
 if __name__ == "__main__":
 
     # 全項目での確認
-    ## ファイル読み込み
-    csv_data = read_csv(INPUT_PATH)    
+    load_data = read_csv(INPUT_PATH)    
+    
     ## データ整形
-    ##train_data,test_data = train_test_split(csv_data,test_size=56,random_state=0,shuffle=False)
-    train_data,valid_data,test_data = shape_datas(csv_data)
-
-
+    train_data,valid_data,test_data = shape_datas(load_data)
+    
     ## パラメータ最適化
-    params = optimize_param(train_data, valid_data, test_data)
+    params = optimize_param(train_data,valid_data,test_data)
 
     ## 訓練
-    model_path = trainLGB(train_data,test_data)
+    model = train(train_data,test_data,params=params)
+    
     ## テスト
-    predict_result,importance_result = predict(test_data,model_path)
+    rmse,mae,r2 = predict(test_data,model)
+    print(f"RMSE: {rmse:.2f} MAE: {mae:.2f} R2: {r2:.2f}")
