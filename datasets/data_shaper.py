@@ -27,22 +27,17 @@ def shape_datas(df:pd.DataFrame)->pd.DataFrame:
     train_df, valid_df = train_test_split(train_valid_df, test_size=0.2, shuffle=False)
     return train_df, valid_df, test_df
 
-
-def select_data(raw_data:pd.DataFrame,select_name:list,target_name:str)->pd.DataFrame:
+def select_datas(df:pd.DataFrame,colums:list)->pd.DataFrame:
     """_summary_
-    select_nameで送られてきたカラム名がデータフレームにあるか確認、ある項目だけを返す。
+        特定のカラムを取り出して、データフレームで返す
     Args:
-        raw_data (pd.DataFrame): 整形前のデータ
-        select_name (list): 残しておきたいカラム名
-        target_name (str): 目的変数
+        df (pd.DataFrame): 元データ
+        colums (list): 取り出すカラム
 
     Returns:
-        pd.DataFrame: 選択した説明変数+目的変数で構成されたデータフレーム
+        pd.DataFrame: 必要なカラムだけのデータ
     """
-    selected_name = select_name.copy()
-    selected_name.append(target_name)
-    selected_data = raw_data.loc[:,selected_name]
-    return selected_data
+    return df[colums]
 
 def combination_brute_forse(explan_values:list,combination_num:int)->list:
     """_summary_

@@ -14,3 +14,6 @@ N_BOOST_ROUND = 10000 #ループ数
 N_EARLY_STOPPING_ROUND = 100 #EARLY STOPPOINGのラウンド数
 PARAM_PATH = os.path.join("params.json")
 TRIAL_NUM = 100
+
+ALL_COLUMNS = ["crim","zn","indus","chas","nox","rm","age","dis","rad","tax","ptratio","black","lstat","medv"]
+TEST_COLUMNS = ["crim","tax","ptratio","black","lstat","medv"]
