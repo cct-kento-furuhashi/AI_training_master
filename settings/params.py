@@ -6,6 +6,7 @@ TRAIN_PARAMS: Dict[str, Union[int, float, str]] = {
     "objective": "regression",
     "metrics": "rmse",
     "verbosity": -1,
+    "n_jobs": -1,
 }  # 訓練パラメータ
 os.makedirs("static", exist_ok=True)  # モデル格納先作成
 LGB_MODEL_PATH = os.path.join("static", "lgb_model_{:04d}.pkl")  # モデルパス
