@@ -51,7 +51,7 @@ if __name__ == "__main__":
             test_use_data = test_data.loc[:, use_columns]
 
             # 訓練
-            model = train(train_use_data, valid_use_data, model_idx=model_idx)
+            model = train(train_use_data, valid_use_data, model_idx=model_idx, is_save=False)
 
             # テスト
             rmse, mae, r2 = predict(test_use_data, model)

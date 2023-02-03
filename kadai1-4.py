@@ -9,7 +9,7 @@ from datasets.data_shaper import split_test_data
 from datasets.utils import iter_kfold
 from optimizer.impotance_columns import get_top_importance_columns
 from predictor.predict_with_lgb import predict
-from settings.params import INPUT_PATH, N_SPLITS, TARGET_OBJ
+from settings.params import INPUT_PATH, N_SPLITS, TARGET_OBJ, USE_COLUMN_NUM
 from training.train_with_lgb import train
 from utils.utility import set_seed
 
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     load_data, test_data = split_test_data(load_data)
 
     # 使用するカラムを取得
-    use_columns = get_top_importance_columns(load_data, n=5)
+    use_columns = get_top_importance_columns(load_data, n=USE_COLUMN_NUM)
     load_data = load_data.loc[:, use_columns]
     test_data = test_data.loc[:, use_columns]
 
@@ -42,7 +42,6 @@ if __name__ == "__main__":
 
     # シャッフル分割交差検証を行う
     model_idx: int = 0
-    # 本来ならfor文が逆だが、kfoldの分割の方がコストが高いため逆にしている
     for idx, (train_data, valid_data) in enumerate(iter_kfold(load_data, n_splits=N_SPLITS)):
         # 訓練
         model = train(train_data, valid_data, model_idx=model_idx, is_save=False)
