@@ -3,6 +3,8 @@ from logging import warning
 
 import pandas as pd
 
+from utils.utility import reduce_mem_usage
+
 
 def _read_csv(csv_path: str) -> pd.DataFrame:
     """_read_csv CSVファイルを読み込んでデータを返す
@@ -32,4 +34,5 @@ def read_data(file_path: str) -> pd.DataFrame:
     else:
         warning("読み取れないファイルです")
         raise Exception
+    df = reduce_mem_usage(df)
     return df

@@ -11,6 +11,7 @@ from datasets.utils import iter_columns, iter_kfold
 from predictor.predict_with_lgb import predict
 from settings.params import INPUT_PATH, N_SPLITS, TARGET_OBJ, USE_COLUMN_NUM
 from training.train_with_lgb import train
+from utils.utility import set_seed
 
 """
 5個の列を使い、一番良い組み合わせを求める。
@@ -19,6 +20,7 @@ from training.train_with_lgb import train
 """
 
 if __name__ == "__main__":
+    set_seed()
     # ファイル読み込み
     load_data = read_data(INPUT_PATH)
 
@@ -49,7 +51,7 @@ if __name__ == "__main__":
             test_use_data = test_data.loc[:, use_columns]
 
             # 訓練
-            model = train(train_use_data, valid_use_data, model_idx)
+            model = train(train_use_data, valid_use_data, model_idx=model_idx)
 
             # テスト
             rmse, mae, r2 = predict(test_use_data, model)
