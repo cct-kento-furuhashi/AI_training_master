@@ -3,6 +3,7 @@
 *.lock
 *.sqlite
 *.json
+optuner.txt
 
 ### https://raw.github.com/github/gitignore/7ab549fcae8269fdd4004065470176f829d88200/Python.gitignore
 

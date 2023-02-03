@@ -17,13 +17,16 @@ def train(
     valid_df: pd.DataFrame,
     params: Dict[str, Union[int, float, str]] = TRAIN_PARAMS,
     model_idx: int = 0,
+    is_save: bool = True,
 ) -> lgb.Booster:
     """train LGBMで訓練を行う
 
     Args:
         train_df (pd.DataFrame): 訓練データ
         valid_df (pd.DataFrame): テストデータ
+        params (Dict[str, Union[int, float, str]]): 訓練パラメータ
         model_idx (int): モデルID
+        is_save (bool): モデルを保存するか
 
     Returns:
         lgb.Booster: モデル
@@ -50,6 +53,7 @@ def train(
         early_stopping_rounds=N_EARLY_STOPPING_ROUND,
         verbose_eval=False,
     )
-    with open(model_path, "wb") as wf:
-        pickle.dump(model, wf)
+    if is_save:
+        with open(model_path, "wb") as wf:
+            pickle.dump(model, wf)
     return model

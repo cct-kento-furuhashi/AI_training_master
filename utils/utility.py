@@ -37,8 +37,8 @@ def reduce_mem_usage(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: 型変更した後のDataFrame
     """
-    start_mem = df.memory_usage().sum() / 1024**2
-    print("Memory usage of dataframe is {:.2f} MB".format(start_mem))
+    # start_mem = df.memory_usage().sum() / 1024**2
+    # print("Memory usage of dataframe is {:.2f} MB".format(start_mem))
 
     for col in df.columns:
         col_type = df[col].dtype
@@ -67,9 +67,9 @@ def reduce_mem_usage(df: pd.DataFrame) -> pd.DataFrame:
         else:
             df[col] = df[col].astype("category")
 
-    end_mem = df.memory_usage().sum() / 1024**2
-    print("Memory usage after optimization is: {:.2f} MB".format(end_mem))
-    print("Decreased by {:.1f}%".format(100 * (start_mem - end_mem) / start_mem))
+    # end_mem = df.memory_usage().sum() / 1024**2
+    # print("Memory usage after optimization is: {:.2f} MB".format(end_mem))
+    # print("Decreased by {:.1f}%".format(100 * (start_mem - end_mem) / start_mem))
 
     return df
 
