@@ -9,7 +9,7 @@ from sklearn.metrics import mean_squared_error
 
 from data_loader.json_loader import save_param
 from datasets.utils import read_df
-from settings.params import N_BOOST_ROUND, N_EARLY_STOPPING_ROUND, SEED, TARGET_OBJ, TRIAL_NUM
+from settings.params import N_BOOST_ROUND, N_EARLY_STOPPING_ROUND, TARGET_OBJ, TIMEOUT, TRAIN_PARAMS, TRIAL_NUM
 
 """
 optuna まとめ
@@ -33,13 +33,8 @@ class Objective:
         self.test_y = test_y
 
     def __call__(self, trial: optuna.trial.Trial) -> float:
-        params = {
-            "objective": "regression",
-            "metrics": "rmse",
-            "verbosity": -1,
-            "boosting": "gbdt",
-            "seed": SEED,
-            "n_jobs": -1,
+        params = TRAIN_PARAMS.copy()
+        param2 = {
             "learning_rate": trial.suggest_float("learning_rate", 1e-6, 0.1, log=True),
             "lambda_l1": trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True),
             "lambda_l2": trial.suggest_float("lambda_l2", 1e-8, 10.0, log=True),
@@ -51,7 +46,7 @@ class Objective:
             "min_data_in_leaf": trial.suggest_int("min_child_samples", 1, 100),
             "feature_pre_filter": False,
         }
-
+        params.update(param2)
         model = lgb.train(
             params,
             self.train_data,
@@ -68,7 +63,7 @@ class Objective:
 
 
 def optimize_param(
-    train_df: pd.DataFrame, valid_df: pd.DataFrame, test_df: pd.DataFrame
+    train_df: pd.DataFrame, valid_df: pd.DataFrame, test_df: pd.DataFrame, name: str = "optimize_param"
 ) -> Dict[str, Union[int, float, str]]:
     """パラメータ最適化を行う
 
@@ -88,19 +83,10 @@ def optimize_param(
     valid_dataset = lgb.Dataset(valid_x, valid_y)
 
     objective = Objective(train_dataset, valid_dataset, test_x, test_y)
-    study = optuna.create_study(
-        study_name="optimize_param-1-2", storage="sqlite:///optuna_study.sqlite", load_if_exists=True
-    )
-    study.optimize(objective, n_trials=TRIAL_NUM, timeout=30)
+    study = optuna.create_study(study_name=name, storage=f"sqlite:///{name}.sqlite", load_if_exists=True)
+    study.optimize(objective, n_trials=TRIAL_NUM, timeout=TIMEOUT)
 
-    params: Dict[str, Union[int, float, str]] = {
-        "objective": "regression",
-        "metrics": "rmse",
-        "verbosity": -1,
-        "boosting": "gbdt",
-        "seed": SEED,
-        "n_jobs": -1,
-    }
+    params: Dict[str, Union[int, float, str]] = TRAIN_PARAMS.copy()
     for k, v in study.best_params.items():
         params[k] = v
     save_param(params)
